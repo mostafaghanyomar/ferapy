@@ -1,0 +1,59 @@
+app:
+  name: @project.name@
+  version: @project.version@
+  description: @project.description@
+  mobile-tag: mobile
+
+api:
+  context: /
+  path: ${api.context}api/
+  auth: ${api.context}auth/
+  v0: ${api.path}v0/
+
+server:
+  compression:
+    enabled: true
+  error:
+    whitelabel:
+      enabled: false
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: metrics
+      path-mapping:
+        metrics: metrics-list
+      base-path: /internal/
+
+spring:
+  data:
+    mongodb:
+      service-name: db-mongo
+      #Known Bug: https://jira.spring.io/browse/DATAMONGO-2435
+      auto-index-creation: true
+  mvc:
+    async:
+      request-timeout: 60000 #90 Seconds
+
+springdoc:
+  swagger-ui:
+    path: /api-docs/
+
+#JWT Configs
+jwt:
+  header: Authorization
+  bearer: Bearer
+  secret:  SometHing-oNly-uS_knOw
+  ##Converting time from a long value via multiplication: days*hours*minutes*seconds*milliseconds##
+  expiration: 7*24*60*60*1000
+
+---
+spring:
+  profiles: dev,test
+  mvc:
+    async:
+      request-timeout: 86400000 #1 day
+
+###Overridden properties From the Environment Variables
+environment: dev
