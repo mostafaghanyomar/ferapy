@@ -2,7 +2,6 @@ app:
   name: @project.name@
   version: @project.version@
   description: @project.description@
-  mobile-tag: mobile
 
 api:
   context: /
